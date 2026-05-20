@@ -7,8 +7,10 @@ app.use(cors());
 app.use(express.json());
 
 // Initialize Firebase Admin
-// NOTE: serviceAccountKey.json must be placed in the backend folder
-const serviceAccount = require("./serviceAccountKey.json");
+// We use an environment variable for the service account to keep it secure
+const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT 
+  ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT) 
+  : require("./serviceAccountKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
