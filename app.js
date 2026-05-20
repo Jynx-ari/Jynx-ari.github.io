@@ -1,7 +1,7 @@
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, onValue, update, serverTimestamp, get, remove, onDisconnect } from "firebase/database";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification } from "firebase/auth";
-import { getFunctions } from "firebase/functions";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, update, serverTimestamp, get, remove, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFunctions } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDFKRvtcCkBkSgnC6GE3KGIGUC5Z99GePg",
@@ -401,6 +401,7 @@ function toggleAuthMode(mode) {
 }
 
 async function handleAuth() {
+    console.log("Luna: Auth button clicked!");
     const identifier = document.getElementById('identifier').value.trim();
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
@@ -452,6 +453,7 @@ async function handleAuth() {
                 verified: false // Mark as unverified initially
             });
 
+            
             notify("Account created! Please check your email to verify your account.");
             toggleAuthMode(currentAuthMode === 'login' ? 'signup' : 'login');
         } else {
