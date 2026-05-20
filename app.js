@@ -110,18 +110,33 @@ function updateCamera() {
   requestAnimationFrame(updateCamera);
 }
 
-function notify(message, duration = 500) {
+function notify(message, duration = 3000) {
   const container = document.getElementById('notifications');
+  
   const el = document.createElement('div');
   el.className = 'notification';
-  el.innerText = message;
+  
+  const textNode = document.createElement('span');
+  textNode.innerText = message;
+  el.appendChild(textNode);
+
+  const timerBar = document.createElement('div');
+  timerBar.className = 'notification-timer';
+  el.appendChild(timerBar);
+  
   container.appendChild(el);
+
+  requestAnimationFrame(() => {
+    timerBar.style.transition = `width ${duration}ms linear`;
+    timerBar.style.width = '0%';
+  });
+
   setTimeout(() => {
     el.style.opacity = '0';
     el.style.transform = 'translateX(20px)';
     el.style.transition = 'all 0.5s ease';
-    setTimeout(() => el.remove(), duration);
-  }, 3000);
+    setTimeout(() => el.remove(), 500);
+  }, duration);
 }
 
 function updateLeaderboard(players) {
