@@ -459,14 +459,21 @@ async function handleAuth() {
         } else {
             let loginEmail = identifier;
             if (!identifier.includes('@')) {
+                console.log("Luna Debug: Identifier is a username, looking up email...");
                 const normalizedIdentifier = identifier.toLowerCase();
                 const userMap = await get(ref(db, `usernames/${normalizedIdentifier}`));
                 if (!userMap.exists()) {
+                    console.error("Luna Debug: Username not found in database!");
                     notify("Account not found!");
                     return;
                 }
                 loginEmail = userMap.val().email;
+                console.log("Luna Debug: Found email for username:", loginEmail);
+            } else {
+                console.log("Luna Debug: Identifier is already an email:", loginEmail);
             }
+            
+            console.log("Luna Debug: Final attempt to login with:", loginEmail);
             userCred = await signInWithEmailAndPassword(auth, loginEmail, password);
             myUID = userCred.user.uid;
             mySessionID = Math.random().toString(36).substring(7);
