@@ -611,8 +611,15 @@ async function startSimulation(user) {
             document.getElementById('gold-count').innerText = myGold;
           }
         });
-    }
-    if (data.walls) {
+
+        document.querySelectorAll('.cursor-container').forEach(el => {
+          const uid = el.id.replace('cursor-', '');
+          if (!activePlayerIds.has(uid)) {
+            el.remove();
+          }
+        });
+      }
+      if (data.walls) {
 
       Object.entries(data.walls).forEach(([key, wall]) => {
         const [_, x, y] = key.split('-');
