@@ -304,23 +304,91 @@
             z-index: 1;
             animation: pulse 2s infinite;
         }
+        .tile-highlight {
+            position: absolute;
+            pointer-events: none;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 15px white;
+            z-index: 500;
+            transition: all 0.1s ease-out;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            filter: drop-shadow(0 0 2px white);
+        }
+        #tile-menu {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000;
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 15px;
+            display: none;
+            flex-direction: row;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            min-width: 250px;
+            justify-content: center;
+            align-items: center;
+        }
+        .menu-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        .menu-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .menu-btn.buy {
+            background: var(--player-color);
+            color: black;
+            font-weight: bold;
+        }
+        .menu-btn.buy:hover {
+            background: #00ffccaa;
+        }
 
         @keyframes pulse {
+
             0% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.1); opacity: 1; }
             100% { transform: scale(1); opacity: 0.8; }
         }
 
-        .cursor {
+        .cursor-container {
             position: absolute;
+            pointer-events: none;
+            z-index: 1000;
+            transition: left 0.1s ease-out, top 0.1s ease-out;
+        }
+        .cursor-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            pointer-events: none;
-            z-index: 1000;
-            transition: transform 0.1s ease-out;
             box-shadow: 0 0 10px currentColor;
+            opacity: 0.6;
+            filter: blur(1px);
         }
+        .cursor-label {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            white-space: nowrap;
+            color: white;
+            text-shadow: 0 0 4px black;
+            font-weight: 700;
+        }
+
 
         .cursor-label {
             position: absolute;
@@ -404,7 +472,7 @@
 
 
     <div id="leaderboard">
-        <h2>Top Owners</h2>
+        <h2>Leaderboard</h2>
         <div id="lb-list">
             <!-- Entries injected by JS -->
         </div>
@@ -418,6 +486,10 @@
     </div>
 
     <div id="notifications"></div>
+    <div id="tile-menu">
+        <button id="tile-buy" class="menu-btn buy">Buy Land (50D)</button>
+        <button id="tile-cancel" class="menu-btn">Cancel</button>
+    </div>
 
     <div id="game-container">
         <div id="game-board"></div>

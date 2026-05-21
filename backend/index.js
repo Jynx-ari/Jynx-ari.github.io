@@ -55,6 +55,38 @@ app.post("/spend-gold", async (req, res) => {
   }
 });
 
+// 3. Public Leaderboard Endpoint
+app.get("/leaderboard", async (req, res) => {
+  try {
+    const snapshot = await db.ref("users").once("value");
+    const users = snapshot.val();
+
+    if (!users) {
+      return res.json({});
+    }
+
+    const sorted = Object.entries(users)
+      .map(([uid, data]) => ({
+        uid,
+        name: data.name || "Unknown",
+        gold: data.gold || 0,
+      }))
+      .sort((a, b) => b.gold - a.gold)
+      .slice(0, 10);
+
+    // Return as an object for consistency with existing updateLeaderboard function
+    const result = {};
+    sorted.forEach((p, i) => {
+      result[p.uid] = { name: p.name, gold: p.gold };
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error("Error fetching leaderboard:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Backend is running on port ${PORT}`);
